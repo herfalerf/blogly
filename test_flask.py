@@ -19,9 +19,10 @@ class UserViewsTestCase(TestCase):
     def setUp(self):
         """Add sample user and post."""
         
-        
-        User.query.delete()
         Post.query.delete()
+        User.query.delete()
+        db.session.commit()
+
       
       
         user = User(first_name="TestFirst", last_name="TestLast", img_url="https://picsum.photos/200/300")
@@ -42,14 +43,7 @@ class UserViewsTestCase(TestCase):
         db.session.rollback()
     
         
-    def test_add_post(self):
-        with app.test_client() as client:
-            d = {"title": "TestPost", "content": "Test Content"}
-            resp = client.post(f"/users/{self.user_id}/posts/new", data=d, follow_redirects=True)
-            html = resp.get_data(as_text=True)
 
-            self.assertEqual(resp.status_code, 200)
-            self.assertIn('TestPost', html)
     
     def test_list_user(self):
         """Test whether users appear on user list"""
@@ -91,13 +85,17 @@ class UserViewsTestCase(TestCase):
             self.assertNotIn('TestFirst', html)
 
       
-# This test doesn't work, returns 404 response code, cannot figure out.
 
-    # def test_add_post(self):
-    #     with app.test_client() as client:
-    #         d = {"title": "TestPost", "content": "Test Content"}
-    #         resp = client.post(f"/users/2/posts/new", data=d, follow_redirects=True)
-    #         html = resp.get_data(as_text=True)
 
-    #         self.assertEqual(resp.status_code, 200)
-    #         self.assertIn('TestPost', html)
+    def test_add_post(self):
+        with app.test_client() as client:
+            d = {"title": "TestPost", "content": "Test Content"}
+            resp = client.post(f"/users/1/posts/new", data=d, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('TestPost', html)
+
+   
+
+            

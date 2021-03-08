@@ -98,13 +98,13 @@ def submit_post(user_id):
     user = User.query.get_or_404(user_id)
     title = request.form["title"]
     content = request.form["content"]
-    user = user_id
-    new_post = Post(title=title, content=content, user_id=user)
+    
+    new_post = Post(title=title, content=content, user=user)
 
     db.session.add(new_post)
     db.session.commit()
 
-    return redirect(f"/users/{user}" )
+    return redirect(f"/users/{user_id}" )
 
 @app.route('/posts/<int:post_id>')
 def show_post(post_id):
