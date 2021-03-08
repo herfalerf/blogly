@@ -93,7 +93,7 @@ def new_post_form(user_id):
 
 @app.route('/users/<int:user_id>/posts/new', methods=["POST"])
 def submit_post(user_id):
-    """Show new post form"""
+    """Process new post form"""
 
     user = User.query.get_or_404(user_id)
     title = request.form["title"]
