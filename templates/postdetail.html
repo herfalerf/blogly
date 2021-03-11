@@ -4,6 +4,12 @@ content %}
 <blockquote>{{post.content}}</blockquote>
 <figcaption>by {{user.first_name}} {{user.last_name}}</figcaption>
 
+<p>
+  Tags: {% for tag in tags %}
+  <span class="post_tags">{{tag.name}}</span>
+  {% endfor %}
+</p>
+
 <form action="/users/{{user.id}}" method="GET">
   <button>Cancel</button>
 </form>
